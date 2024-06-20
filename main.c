@@ -65,8 +65,7 @@ ssize_t handle_write(int type, int fd, const unsigned char *buf, size_t count,
         if ((offset = lseek(fd, 0, SEEK_CUR)) < 0 || offset % BLOCK_SIZE != 0)
             return handle_fallback_write(type, fd, buf, count, offset);
 
-    char path[PATH_MAX] = {0};
-    char fd_link[PATH_MAX] = {0};
+    char path[PATH_MAX], fd_link[PATH_MAX];
     sprintf(fd_link, "/proc/self/fd/%d", fd);
     if (!readlink(fd_link, path, PATH_MAX - 1)) {
         fprintf(
@@ -156,8 +155,7 @@ ssize_t handle_read(int type, int fd, unsigned char *buf, size_t count,
         if ((offset = lseek(fd, 0, SEEK_CUR)) < 0 || offset % BLOCK_SIZE != 0)
             return handle_fallback_read(type, fd, buf, count, offset);
 
-    char path[PATH_MAX] = {0};
-    char fd_link[PATH_MAX] = {0};
+    char path[PATH_MAX], fd_link[PATH_MAX];
     sprintf(fd_link, "/proc/self/fd/%d", fd);
     if (!readlink(fd_link, path, PATH_MAX - 1)) {
         fprintf(
